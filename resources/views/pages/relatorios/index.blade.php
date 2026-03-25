@@ -19,7 +19,7 @@
           <td>{{ $c->pregador }}</td>
           <td>{{ $c->tema_culto ?? '—' }}</td>
           <td>{{ $c->presencaCulto?->total ?? '—' }}</td>
-          <td>{{ $c->oferta ? number_format($c->oferta->valor_total,0,',','.').' Kz' : '—' }}</td>
+          <td>{{ number_format($c->total_ofertas,0,',','.') }} Kz</td>
           <td>
             <div style="display:flex;gap:var(--space-2);">
               <a href="{{ route('relatorios.dominical', $c) }}" class="btn btn-sm btn-primary">Ver Relatório</a>

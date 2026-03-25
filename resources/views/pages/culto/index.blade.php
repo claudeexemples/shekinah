@@ -21,7 +21,7 @@
           <td>{{ $c->presencaCulto?->adolescentes ?? '—' }}</td>
           <td>{{ $c->presencaCulto?->criancas ?? '—' }}</td>
           <td><strong>{{ $c->presencaCulto?->total ?? '—' }}</strong></td>
-          <td>{{ $c->oferta ? number_format($c->oferta->valor_total, 0, ',', '.') : '—' }}</td>
+          <td>{{ number_format($c->total_ofertas, 0, ',', '.') }}</td>
           <td>{{ $c->visitantes->count() }}</td>
           <td>
             <div style="display:flex;gap:var(--space-2);">

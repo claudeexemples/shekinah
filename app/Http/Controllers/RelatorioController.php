@@ -23,7 +23,7 @@ class RelatorioController extends Controller
     public function dominical(Evento $culto)
     {
         $culto->load([
-            'presencaCulto','oferta','visitantes',
+            'presencaCulto','ofertas','visitantes',
             'ebdRegistro','celestialRegistro',
         ]);
 
@@ -39,7 +39,7 @@ class RelatorioController extends Controller
         $mes = $request->mes ?? Carbon::now()->month;
         $ano = $request->ano ?? Carbon::now()->year;
 
-        $cultos = Evento::with(['presencaCulto','oferta'])
+        $cultos = Evento::with(['presencaCulto','ofertas'])
             ->where('tipo_evento','culto_dominical')
             ->whereMonth('data',$mes)->whereYear('data',$ano)
             ->orderBy('data')->get();
@@ -73,7 +73,7 @@ class RelatorioController extends Controller
                 ->with('error', 'Para exportar PDF instale: composer require barryvdh/laravel-dompdf');
         }
 
-        $culto->load(['presencaCulto','oferta','visitantes','ebdRegistro','celestialRegistro']);
+        $culto->load(['presencaCulto','ofertas','visitantes','ebdRegistro','celestialRegistro']);
         $turmaActiva = TurmaDoutrinaria::where('ativa',true)->first();
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView(
@@ -94,7 +94,7 @@ class RelatorioController extends Controller
         $mes = $request->mes ?? Carbon::now()->month;
         $ano = $request->ano ?? Carbon::now()->year;
 
-        $cultos = Evento::with(['presencaCulto','oferta'])
+        $cultos = Evento::with(['presencaCulto','ofertas'])
             ->where('tipo_evento','culto_dominical')
             ->whereMonth('data',$mes)->whereYear('data',$ano)->get();
 

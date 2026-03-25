@@ -119,7 +119,7 @@
         </div>
         <div class="summary-row">
           <span class="sr-label">Oferta arrecadada</span>
-          <span class="sr-value" style="color:var(--color-success-700);">{{ number_format($ultimoCulto->oferta?->valor_total ?? 0, 2, ',', '.') }} Kz</span>
+          <span class="sr-value" style="color:var(--color-success-700);">{{ number_format($ultimoCulto->total_ofertas, 2, ',', '.') }} Kz</span>
         </div>
       @else
         <div class="empty-state" style="padding:var(--space-8);">

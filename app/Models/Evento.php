@@ -39,9 +39,18 @@ class Evento extends Model
         return $this->hasOne(CelestialRegistro::class);
     }
 
-    public function oferta()
+    public function ofertas()
     {
-        return $this->hasOne(Oferta::class);
+        return $this->hasMany(Oferta::class);
+    }
+
+    public function getTotalOfertasAttribute(): float
+    {
+        if ($this->relationLoaded('ofertas')) {
+            return (float) $this->ofertas->sum('valor_total');
+        }
+
+        return (float) $this->ofertas()->sum('valor_total');
     }
 
     /* Helpers */
