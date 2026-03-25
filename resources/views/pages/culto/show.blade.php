@@ -35,16 +35,27 @@
   </div>
 </div>
 
-@if($culto->oferta)
+@if($culto->ofertas->isNotEmpty())
 <div class="card" style="margin-bottom:var(--space-6);">
-  <div class="card-header"><span class="card-title">Oferta</span></div>
-  <div class="card-body">
-    <div class="grid-4">
-      <div style="text-align:center;"><div style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--color-neutral-800);">{{ number_format($culto->oferta->valor_dinheiro,0,',','.') }} Kz</div><div style="font-size:var(--text-xs);color:var(--color-neutral-500);">Dinheiro</div></div>
-      <div style="text-align:center;"><div style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--color-neutral-800);">{{ number_format($culto->oferta->valor_transferencia,0,',','.') }} Kz</div><div style="font-size:var(--text-xs);color:var(--color-neutral-500);">Transferência/EMIS</div></div>
-      <div style="text-align:center;"><div style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--color-neutral-800);">{{ number_format($culto->oferta->valor_cartao,0,',','.') }} Kz</div><div style="font-size:var(--text-xs);color:var(--color-neutral-500);">Multicaixa/TPA</div></div>
-      <div style="text-align:center;"><div style="font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700;color:var(--color-success-700);">{{ number_format($culto->oferta->valor_total,0,',','.') }} Kz</div><div style="font-size:var(--text-xs);color:var(--color-neutral-500);">Total Arrecadado</div></div>
-    </div>
+  <div class="card-header">
+    <span class="card-title">Ofertas ({{ $culto->ofertas->count() }} tipos)</span>
+    <span class="badge badge-success">Total: {{ number_format($culto->total_ofertas,0,',','.') }} Kz</span>
+  </div>
+  <div class="table-wrapper">
+    <table class="table">
+      <thead><tr><th>Tipo</th><th>Dinheiro</th><th>Transferência</th><th>Multicaixa/TPA</th><th>Total</th></tr></thead>
+      <tbody>
+        @foreach($culto->ofertas as $o)
+          <tr>
+            <td><strong>{{ $o->tipo }}</strong></td>
+            <td>{{ number_format($o->valor_dinheiro,0,',','.') }} Kz</td>
+            <td>{{ number_format($o->valor_transferencia,0,',','.') }} Kz</td>
+            <td>{{ number_format($o->valor_cartao,0,',','.') }} Kz</td>
+            <td><strong style="color:var(--color-success-700);">{{ number_format($o->valor_total,0,',','.') }} Kz</strong></td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
 </div>
 @endif
@@ -57,7 +68,7 @@
       <thead><tr><th>Nome</th><th>Telefone</th><th>Bairro</th><th>Tipo</th><th>1ª Visita</th><th>Como Conheceu</th><th>Estado</th></tr></thead>
       <tbody>
         @foreach($culto->visitantes as $v)
-        <tr><td><strong>{{ $v->nome }}</strong></td><td>{{ $v->telefone ?? '—' }}</td><td>{{ $v->bairro ?? '—' }}</td><td>{{ $v->tipo_label }}</td><td>{{ $v->primeira_visita ? '<span class="badge badge-primary">Sim</span>' : 'Não' }}</td><td>{{ $v->como_conheceu ?? '—' }}</td><td><span class="badge {{ $v->status_badge_class }}">{{ $v->status_label }}</span></td></tr>
+        <tr><td><strong>{{ $v->nome }}</strong></td><td>{{ $v->telefone ?? '—' }}</td><td>{{ $v->bairro ?? '—' }}</td><td>{{ $v->tipo_label }}</td><td>{!! $v->primeira_visita ? '<span class="badge badge-primary">Sim</span>' : 'Não' !!}</td><td>{{ $v->como_conheceu ?? '—' }}</td><td><span class="badge {{ $v->status_badge_class }}">{{ $v->status_label }}</span></td></tr>
         @endforeach
       </tbody>
     </table>

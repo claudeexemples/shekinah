@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $anoAtual = $hoje->year;
 
         /* Último culto dominical */
-        $ultimoCulto = Evento::with(['presencaCulto', 'oferta', 'visitantes'])
+        $ultimoCulto = Evento::with(['presencaCulto', 'ofertas', 'visitantes'])
             ->where('tipo_evento', 'culto_dominical')
             ->latest('data')
             ->first();

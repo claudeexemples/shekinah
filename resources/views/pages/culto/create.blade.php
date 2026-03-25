@@ -95,40 +95,14 @@
   </button>
 </div>
 
-{{-- Oferta --}}
+{{-- Ofertas --}}
 <div class="section-block">
   <div class="section-block-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-    Registo de Oferta <span style="font-size:var(--text-sm);color:var(--color-neutral-400);font-weight:400;">(Kwanza — AOA)</span>
+    Ofertas do Culto <span style="font-size:var(--text-sm);color:var(--color-neutral-400);font-weight:400;">(múltiplos tipos)</span>
   </div>
-  <div class="form-grid">
-    <div class="form-group">
-      <label class="form-label">Tipo de Oferta</label>
-      <select name="tipo_oferta" class="form-select">
-        <option>Oferta de Louvor</option>
-        <option>Dízimos e Ofertas</option>
-        <option>Missões</option>
-        <option>Oferta de Gratidão</option>
-        <option>Oferta Especial</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Dinheiro (Kz)</label>
-      <input type="number" name="valor_dinheiro" id="of-din" class="form-input" placeholder="0.00" step="0.01" min="0" oninput="calcOferta()">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Transferência Bancária / EMIS (Kz)</label>
-      <input type="number" name="valor_transferencia" id="of-tr" class="form-input" placeholder="0.00" step="0.01" min="0" oninput="calcOferta()">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Multicaixa / TPA (Kz)</label>
-      <input type="number" name="valor_cartao" id="of-mc" class="form-input" placeholder="0.00" step="0.01" min="0" oninput="calcOferta()">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Total Arrecadado (Kz)</label>
-      <input type="number" id="of-total" class="form-input" readonly style="background:var(--color-success-50);color:var(--color-success-700);font-weight:700;" placeholder="0.00">
-    </div>
-  </div>
+  <div id="offers-list"></div>
+  <button type="button" class="btn btn-ghost" onclick="addOffer()">+ Adicionar tipo de oferta</button>
 </div>
 
 {{-- Observações --}}
@@ -156,12 +130,32 @@ function calcTotal() {
   document.getElementById('qt-total').value = a + b + c;
 }
 
-function calcOferta() {
-  const d = parseFloat(document.getElementById('of-din').value) || 0;
-  const t = parseFloat(document.getElementById('of-tr').value)  || 0;
-  const m = parseFloat(document.getElementById('of-mc').value)  || 0;
-  document.getElementById('of-total').value = (d + t + m).toFixed(2);
+
+
+let oc = 0;
+function addOffer() {
+  const list = document.getElementById('offers-list');
+  const div = document.createElement('div');
+  div.className = 'section-block';
+  div.style.marginBottom = '12px';
+  div.innerHTML = `
+    <div class="form-grid">
+      <div class="form-group"><label class="form-label">Tipo</label>
+        <select name="ofertas[${oc}][tipo]" class="form-select">
+          <option>Oferta de Louvor</option><option>Dízimos e Ofertas</option><option>Missões</option><option>Oferta de Gratidão</option><option>Oferta Especial</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Dinheiro</label><input type="number" step="0.01" min="0" name="ofertas[${oc}][valor_dinheiro]" class="form-input"></div>
+      <div class="form-group"><label class="form-label">Transferência</label><input type="number" step="0.01" min="0" name="ofertas[${oc}][valor_transferencia]" class="form-input"></div>
+      <div class="form-group"><label class="form-label">TPA</label><input type="number" step="0.01" min="0" name="ofertas[${oc}][valor_cartao]" class="form-input"></div>
+      <div class="form-group col-span-2"><label class="form-label">Observação</label><input type="text" name="ofertas[${oc}][observacao]" class="form-input"></div>
+    </div>
+    <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">Remover</button>
+  `;
+  list.appendChild(div);
+  oc++;
 }
+addOffer();
 
 function addVisitor() {
   vc++;

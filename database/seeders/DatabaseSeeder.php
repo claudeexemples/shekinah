@@ -13,12 +13,19 @@ use App\Models\CandidatoBatismo;
 use App\Models\PresencaDoutrinaria;
 use App\Models\Oferta;
 use App\Models\Despesa;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+
+        User::firstOrCreate(
+            ['email' => 'admin@shekinah.ao'],
+            ['name' => 'Administrador', 'role' => 'admin', 'password' => 'password123']
+        );
+
         /* -------------------------------------------------------
            TURMA DOUTRINÁRIA
         ------------------------------------------------------- */

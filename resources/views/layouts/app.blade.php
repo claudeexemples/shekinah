@@ -300,6 +300,9 @@ ul,ol{list-style:none}
   .flow-grid{grid-template-columns:1fr}
 }
 @media(max-width:768px){
+  .table thead th,.table tbody td{padding:var(--space-2)}
+  .header__breadcrumb{display:none}
+  .section-actions{width:100%;flex-wrap:wrap}
   :root{--sidebar-width:0px}
   .sidebar{transform:translateX(-100%);width:256px;box-shadow:var(--shadow-xl)}
   .sidebar.open{transform:translateX(0)}
@@ -380,16 +383,21 @@ ul,ol{list-style:none}
         <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         <span>Relatórios</span>
       </a>
+      <a href="{{ route('usuarios.index') }}" class="nav-item {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
+        <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+        <span>Usuários</span>
+      </a>
     </nav>
 
     <div class="sidebar__footer">
       <div class="sidebar__user">
-        <div class="sidebar__avatar">PA</div>
+        <div class="sidebar__avatar">{{ strtoupper(substr(auth()->user()->name ?? 'U',0,1)) }}</div>
         <div class="sidebar__user-info">
-          <div class="sidebar__user-name">Pastor António</div>
-          <div class="sidebar__user-role">Administrador</div>
+          <div class="sidebar__user-name">{{ auth()->user()->name }}</div>
+          <div class="sidebar__user-role">{{ auth()->user()->role === 'admin' ? 'Administrador' : 'Editor' }}</div>
         </div>
       </div>
+      <form method="POST" action="{{ route('logout') }}" style="margin-top:10px;">@csrf<button class="btn btn-sm btn-secondary" style="width:100%;">Terminar sessão</button></form>
     </div>
   </aside>
 
