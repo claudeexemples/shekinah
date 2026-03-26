@@ -116,5 +116,10 @@ shekinah/
 
 ---
 
+## Autor
+Cláudio Alfredo
+
+---
+
 ## Licença
 MIT — Livre para uso, modificação e distribuição.
